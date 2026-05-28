@@ -1,96 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">   
-      
+<html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>हॉटेल निसर्ग</title>
+    <title>Hotel MK Bar And Restaurant</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet">
     <style>
-        
+        /* Menu Hidden by Default */
+        .menu {
+            display: none;
+        }
+
+        .menu.visible {
+            display: block;
+        }
+
+        /* Section Buttons - Liquor & Food */
+        .section-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0 20px;
+            padding: 0 15px;
+        }
+
+        .section-btn {
+            flex: 1;
+            max-width: 300px;
+            padding: 18px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: var(--ff-heading);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .section-btn:hover::before {
+            left: 100%;
+        }
+
+        .section-btn.liquor-btn {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+        }
+
+        .section-btn.food-btn {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: #FFFFFF;
+            border: 2px solid #FFA000;
+        }
+
+        .section-btn.active {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-btn.liquor-btn.active {
+            box-shadow: 0 10px 30px rgba(210, 105, 30, 0.4);
+        }
+
+        .section-btn.food-btn.active {
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Responsive section buttons */
+        @media (max-width: 768px) {
+            .section-buttons {
+                gap: 15px;
+                margin: 20px 0 15px;
+            }
+            
+            .section-btn {
+                padding: 14px 20px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .section-btn {
+                max-width: 100%;
+                width: 100%;
+                padding: 12px 15px;
+                font-size: 18px;
+            }
+        }
+
         /* Tabs Navigation - Category Buttons */
         .tabs-container {
             position: relative;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .tabs-scroll {
+        .tabs-scroll-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.25);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .tabs-column {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 8px 0;
-            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .tab {
-            padding: 10px 16px;
-            border-radius: 999px;
+            padding: 12px 16px;
+            border-radius: 12px;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(212, 175, 55, 0.2);
             font-size: 14px;
             color: var(--muted);
             cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-            margin: 2px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            line-height: 1.3;
+            width: 100%;
         }
 
-
-
-
-
-        
-
-.tabs-container {
-  text-align: center;
-}
-
-.tab-row {
-  margin-bottom: 10px;
-}
-
-.tab {
-  margin: 4px;
-}
-
-
-
-
-
-        
-        
         .tab.active {
             background: linear-gradient(90deg, var(--gold1), var(--gold2));
             color: #0b0b0d;
-            border: none;
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+            border: 1.5px solid var(--gold1);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+            font-weight: 600;
+            transform: translateY(-2px);
         }
 
         /* Hover effect for better UX */
         .tab:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-1px);
+            border-color: var(--gold1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.15);
         }
 
         /* Tablet styles */
         @media (min-width: 768px) {
-            .tabs-scroll {
-                justify-content: flex-start;
+            .tabs-scroll-wrapper {
+                padding: 18px;
+                gap: 20px;
             }
-
+            
+            .tabs-column {
+                gap: 12px;
+            }
+            
             .tab {
-                padding: 12px 20px;
+                padding: 14px 18px;
                 font-size: 15px;
             }
         }
 
         /* Desktop styles */
         @media (min-width: 1024px) {
+            .tabs-scroll-wrapper {
+                padding: 20px;
+                gap: 25px;
+            }
+            
+            .tabs-column {
+                gap: 14px;
+            }
+            
             .tab {
-                padding: 12px 24px;
+                padding: 14px 20px;
                 font-size: 15px;
             }
         }
@@ -98,24 +211,38 @@
         /* Mobile-specific adjustments */
         @media (max-width: 767px) {
             .tab {
-                padding: 8px 14px;
+                padding: 10px 14px;
                 font-size: 13px;
             }
 
-            .tabs-scroll {
-                justify-content: center;
+            .tabs-scroll-wrapper {
+                padding: 12px;
+                border-width: 1.5px;
+                gap: 10px;
+            }
+            
+            .tabs-column {
+                gap: 8px;
             }
         }
 
         /* Small mobile devices */
         @media (max-width: 480px) {
-            .tab {
-                padding: 6px 12px;
-                font-size: 12px;
+            .tabs-scroll-wrapper {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 10px;
+                border-radius: 14px;
             }
-
-            .tabs-scroll {
-                gap: 5px;
+            
+            .tab {
+                padding: 8px 10px;
+                font-size: 12.5px;
+                border-radius: 10px;
+            }
+            
+            .tabs-column {
+                gap: 6px;
             }
         }
 
@@ -203,7 +330,7 @@
             flex-direction: column;
             gap: var(--gap);
         }
-  
+
         /* Cafe Header - Original Style */
         .cafe-header {
             text-align: center;
@@ -445,44 +572,6 @@
             width: 100%;
         }
 
-        /* Tabs Navigation */
-        .tabs-container {
-            position: relative;
-            margin-bottom: 10px;
-        }
-
-        .tabs-scroll {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 8px 0;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .tabs-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab {
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 14px;
-            color: var(--muted);
-            cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .tab.active {
-            background: var(--accent);
-            color: #0b0b0d;
-            border: none;
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
-        }
-
         /* Menu Grid */
         .menu-grid {
             display: grid;
@@ -601,7 +690,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);  
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
         }
 
         .btn-primary:active {
@@ -1124,115 +1213,54 @@
         }
 
         /* Print Styles */
-        @media print {  
+        @media print {
             body {
                 background: white;
                 color: black;
-            }  
-   
-            .cart-container,   
+            }
+
+            .cart-container,
             .cart-modal,
             .btn-ghost {
-                display: none;    
-            }    
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">  
+    
+    <div class="container">
         <!-- Cafe Header - Original Style -->
         <div class="cafe-header">
-<img src="logo.png" alt="Logo" style="width:400px; height:auto; display:block; margin:0 auto;">
+            <img src="logo.png" alt="Logo" style="width:400px; height:auto;">
             <div class="cafe-name">हॉटेल निसर्ग</div>
-            <div class="cafe-subtitle">परमिट रूम अँड बिअर बार</div> 
+            <div class="cafe-subtitle">परमिट रूम अँड बिअर बार</div>
             <div class="location-info">
                 <div class="location-text"></div>
                 <div class="address"></div>
-
-                  <div class="location-text"><h2></h2></div>
-                  <div class="cafe-subtitle"></div>
-                           <div class="cafe-subtitle"></div>
-                <div class="mobile-numbers"><br>Mo no.+91 8999518792</div>
+                <div class="mobile-numbers">Mo no.+91 8999518792</div>
             </div>
             <div class="veg-nonveg">
                 <div class="veg">
                     <span class="symbol"></span>
-                    <span>VEG</span>
+                    <span>Veg</span>
                 </div>
-                 <div class="nonveg">
+                <div class="nonveg">
                     <span class="symbol"></span>
-                    <span>NON VEG</span>
+                    <span>Non-Veg</span>
                 </div>
             </div>
         </div>
 
-<!-- Font Awesome -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <!-- Section Buttons - Liquor & Food -->
+        <div class="section-buttons">
+            <button class="section-btn liquor-btn" id="liquorSectionBtn">🍸 Liquor</button>
+            <button class="section-btn food-btn" id="foodSectionBtn">🍽️ Food</button>
+        </div>
 
-<!-- Social Media Buttons -->
-<div style="display:flex; justify-content:center; gap:25px; margin-top:30px; flex-wrap:wrap;">
-
-    <!-- Instagram -->
-    <!-- <a href="https://www.instagram.com/madanghuge?utm_source=qr&igsh=MXd3cTM4ZWM0bGNmeA%3D%3D" target="_blank"
-    style="
-    width:70px;
-    height:70px;
-    background:#E1306C;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:32px;
-    text-decoration:none;
-    ">
-        <i class="fab fa-instagram"></i>
-    </a> -->
-
-    <!-- Facebook -->
-    <!-- <a href="https://www.facebook.com/share/1CfvAS4kHZ/" target="_blank"
-    style="
-    width:70px;
-    height:70px;
-    background:#1877F2;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:32px;
-    text-decoration:none;
-    ">
-        <i class="fab fa-facebook-f"></i>
-    </a>
- -->
-    <!-- YouTube -->
-    <!-- <a href="https://youtube.com/@madanghuge40?si=2bSRtZ56FlgajvoD" target="_blank"
-    style="
-    width:70px;
-    height:70px;
-    background:#FF0000;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:32px;
-    text-decoration:none;
-    ">
-        <i class="fab fa-youtube"></i>
-    </a>
-
-</div> -->
-
-<!-- <p style="text-align:center; margin-top:10px; font-size:14px; color:white;">
-  Delivery free up to 3 K
-</p> -->
-          
-        <!-- Main Menu -->
-        <main class="menu">
+        <!-- Main Menu - Hidden by Default -->
+        <main class="menu" id="mainMenu">
             <div class="menu-head">
                 <div class="controls">
                     <div class="search" role="search">
@@ -1242,40 +1270,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                             <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6"
                                 stroke-linecap="round" stroke-linejoin="round"></circle>
                         </svg>
-                        <!-- <input id="search" placeholder="Search dishes, ingredients..." /> -->
-                    </div> 
+                        <input id="search" placeholder="Search dishes, ingredients..." />
+                    </div>
 
-
-
-   <div class="tabs-scroll">
-<button class="tab active" data-cat="all">🍽️ All Items</button>
-<button class="tab" data-cat="Thali Special">🍛 Thali Special</button>
-<button class="tab" data-cat="Raan Special">🍖 Raan Special</button>
-<button class="tab" data-cat="Snacks & Starters">🥗 Snacks & Starters</button>
-<button class="tab" data-cat="Soups">🍲 Soups</button>
-<button class="tab" data-cat="Egg Special">🥚 Egg Special</button>
-<button class="tab" data-cat="Veg Oriental Starters">🥦 Veg Oriental Starters</button>
-<button class="tab" data-cat="Non-Veg Starters">🍗 Non-Veg Starters</button>
-<button class="tab" data-cat="Paneer Main Course">🧀 Paneer Main Course</button>
-<button class="tab" data-cat="Veg Main Course">🌱 Veg Main Course</button>
-<button class="tab" data-cat="Veg Main Course Specials">✨ Veg Course Specials</button>
-<button class="tab" data-cat="Egg & Fish Dishes">🐟 Egg & Fish Dishes</button>
-<button class="tab" data-cat="Chicken Dishes">🐓 Chicken Dishes</button>
-<button class="tab" data-cat="Chicken Specials">🔥 Chicken Specials</button>
-<button class="tab" data-cat="Mutton Main Course">🐐 Mutton Main Course</button>
-<button class="tab" data-cat="Indian Breads">🫓 Indian Breads</button>
-<button class="tab" data-cat="Non-Veg Rice & Biryani">🌶️ Non-Veg Rice & Biryani</button>
-<button class="tab" data-cat="Veg Rice Special">🌾 Veg Rice Special</button>
-<button class="tab" data-cat="Scotch Whisky">🥃 Scotch Whisky</button>
-<button class="tab" data-cat="Regular Whisky">🥂 Regular Whisky</button>
-<button class="tab" data-cat="Special Single Malt">⚜️ Special Single Malt</button>
-<button class="tab" data-cat="Vodka">🍸 Vodka</button>
-<button class="tab" data-cat="Rum">🍹 Rum</button>
-<button class="tab" data-cat="Brandy">🍷 Brandy</button>
-<button class="tab" data-cat="Wine">🥂 Wine</button>
-<button class="tab" data-cat="Beer">🍺 Beer</button>
-         
-      </div>  
+                    <div class="tabs-scroll-wrapper" id="tabsWrapper">
+                        <!-- Tabs will be dynamically populated by JavaScript -->
+                    </div>
                 </div>
             </div>
 
@@ -1303,7 +1303,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                 </a>
             </div>
         </div>
-    </div> 
+    </div>
 
     <!-- Cart Button -->
     <div class="cart-container">
@@ -1313,7 +1313,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            <span class="cart-count" id="cartCount">0</span>  
+            <span class="cart-count" id="cartCount">0</span>
         </button>
     </div>
 
@@ -1405,7 +1405,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                     Add another Item
                 </button>
                 <button class="btn-clear" id="clearCart">Clear Cart</button>
-                <button class="btn-whatsapp" id="whatsappOrder">  
+                <button class="btn-whatsapp" id="whatsappOrder">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                         <path
                             d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.488" />
@@ -1417,10 +1417,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </div>
 
     <script>
-        // Menu Data - FIXED VERSION
-        const data = [
-              
-
+        // Menu Data
+        const data =[
+        
 {"id": 1, "cat": "Thali Special", "name": "Veg Thali | व्हेज थाळी", "price": "As Per Menu", "desc": "A complete vegetarian platter serving authentic local vegetable dishes, dal, rice, and fresh Indian breads.", "tags": ["Veg", "Thali"], "img": "img/veg_thali.jpeg"},
 {"id": 2, "cat": "Thali Special", "name": "Egg Curry Thali | अंडाकरी थाळी", "price": "As Per Menu", "desc": "Flavorful egg curry served with traditional rassa, rice, bhakri or chapati, and accompaniments.", "tags": ["Non-Veg", "Thali"], "img": "img/egg_curry_thali.jpeg"},
 {"id": 3, "cat": "Thali Special", "name": "Chicken Thali | चिकन थाळी", "price": "As Per Menu", "desc": "Deliciously spiced chicken gravy served alongside local rassa, rice, choice of flatbread, and salad.", "tags": ["Non-Veg", "Thali"], "img": "img/chicken_thali.jpeg"},
@@ -1879,15 +1878,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 {"id": 451, "cat": "Special Single Malt", "name": "Indri Single Malt (750ml) | इंद्री सिंगल माल्ट", "price": "Rs. 6300", "desc": "Award-winning premium Indian single malt whisky distilled exquisitely and matured inside rare triple wooden casks.", "tags": ["Liquor", "Whisky"], "img": "img/indri_750ml.jpeg"},
 {"id": 452, "cat": "Special Single Malt", "name": "Rampur Single Malt (750ml) | रामपूर सिंगल माल्ट", "price": "Rs. 15000", "desc": "An ultra-luxurious, rich heritage Indian single malt distilled carefully at the foothills of the grand Himalayas.", "tags": ["Liquor", "Whisky"], "img": "img/rampur_750ml.jpeg"},
 {"id": 453, "cat": "Special Single Malt", "name": "Godawan Single Malt (750ml) | गोडावण सिंगल माल्ट", "price": "Rs. 6000", "desc": "A bespoke, highly exceptional artisanal single malt whisky aged intricately inside specialized dynamic botanical casks.", "tags": ["Liquor", "Whisky"], "img": "img/godawan_750ml.jpeg"},
-              
 
-              
-              
-  ];
+
+
+
+
+
+
+
         
-        // Cart functionality    
+        
+        ];
+        // Cart functionality
         let cart = [];
         let deliveryType = 'restaurant'; // Default to restaurant
+        let currentSection = 'food'; // Track current section (food or liquor)
+        
         const cartButton = document.getElementById('cartButton');
         const cartModal = document.getElementById('cartModal');
         const closeCart = document.getElementById('closeCart');
@@ -1899,17 +1905,144 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         const whatsappOrder = document.getElementById('whatsappOrder');
         const addAnotherItem = document.getElementById('addAnotherItem');
         const customerDetailsSummary = document.getElementById('customerDetailsSummary');
+        const mainMenu = document.getElementById('mainMenu');
+        const tabsWrapper = document.getElementById('tabsWrapper');
+        const liquorBtn = document.getElementById('liquorSectionBtn');
+        const foodBtn = document.getElementById('foodSectionBtn');
 
-        // Helper function to extract numeric price from price string (e.g., "Rs. 120/-" -> 120)
-        function extractPrice(priceStr) {
-            if (!priceStr) return 0;
-            // Match first number in the string
-            const match = priceStr.match(/\d+/);
-            if (match) {
-                return parseInt(match[0], 10);
+        // Replace the existing liquorCategories array with this:
+const liquorCategories = [
+    "Scotch Whisky",
+    "Regular Whisky", 
+    "Special Single Malt",
+    "Vodka",
+    "Rum",
+    "Brandy",
+    "Wine",
+    "Beer"
+];
+
+        const foodCategories = [
+           "All Items",
+    "Thali Special",
+    "Raan Special",
+    "Snacks & Starters",
+    "Soups",
+    "Egg Special",
+    "Veg Oriental Starters",
+    "Non-Veg Starters",
+    "Paneer Main Course",
+    "Veg Main Course",
+    "Veg Main Course Specials",
+    "Egg & Fish Dishes",
+    "Chicken Dishes",
+    "Chicken Specials",
+    "Mutton Main Course",
+    "Indian Breads",
+    "Non-Veg Rice & Biryani",
+    "Veg Rice Special",
+        ];
+
+        // Function to render category tabs based on section
+        function renderCategoryTabs(section) {
+            let categories = [];
+            
+            if (section === 'liquor') {
+                categories = liquorCategories;
+            } else {
+                categories = foodCategories;
             }
-            return 0;
+
+            // Split categories into two columns
+            const midPoint = Math.ceil(categories.length / 2);
+            const leftColumn = categories.slice(0, midPoint);
+            const rightColumn = categories.slice(midPoint);
+
+            let leftColumnHTML = '<div class="tabs-column">';
+            leftColumnHTML += '<button class="tab active" data-cat="all">All Items</button>';
+            leftColumn.forEach(cat => {
+                leftColumnHTML += `<button class="tab" data-cat="${cat}">${cat}</button>`;
+            });
+            leftColumnHTML += '</div>';
+
+            let rightColumnHTML = '<div class="tabs-column">';
+            rightColumn.forEach(cat => {
+                rightColumnHTML += `<button class="tab" data-cat="${cat}">${cat}</button>`;
+            });
+            rightColumnHTML += '</div>';
+
+            tabsWrapper.innerHTML = leftColumnHTML + rightColumnHTML;
+
+            // Re-attach event listeners to tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    filterByCategory(tab.dataset.cat);
+                });
+            });
+
+            // Show all items of the current section
+            filterBySection(section);
         }
+
+        // Filter by section (food or liquor)
+        function filterBySection(section) {
+            let filteredItems = [];
+            
+            if (section === 'liquor') {
+                filteredItems = data.filter(item => liquorCategories.includes(item.cat));
+            } else {
+                filteredItems = data.filter(item => foodCategories.includes(item.cat));
+            }
+            
+            renderMenuItems(filteredItems);
+        }
+
+        // Filter by category within current section
+        function filterByCategory(category) {
+            let filteredItems = [];
+            
+            if (category === 'all') {
+                // Show all items in current section
+                if (currentSection === 'liquor') {
+                    filteredItems = data.filter(item => liquorCategories.includes(item.cat));
+                } else {
+                    filteredItems = data.filter(item => foodCategories.includes(item.cat));
+                }
+            } else {
+                filteredItems = data.filter(item => item.cat === category);
+            }
+            
+            renderMenuItems(filteredItems);
+        }
+
+        // Function to show menu
+        function showMenu() {
+            mainMenu.classList.add('visible');
+        }
+
+        // Function to hide menu
+        function hideMenu() {
+            mainMenu.classList.remove('visible');
+        }
+
+        // Section button event listeners
+        liquorBtn.addEventListener('click', () => {
+            liquorBtn.classList.add('active');
+            foodBtn.classList.remove('active');
+            currentSection = 'liquor';
+            renderCategoryTabs('liquor');
+            showMenu(); // Show menu when button is clicked
+        });
+
+        foodBtn.addEventListener('click', () => {
+            foodBtn.classList.add('active');
+            liquorBtn.classList.remove('active');
+            currentSection = 'food';
+            renderCategoryTabs('food');
+            showMenu(); // Show menu when button is clicked
+        });
 
         // Delivery option selection
         function selectDeliveryOption(type) {
@@ -2057,7 +2190,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             if (cart.length === 0) {
                 cartEmpty.style.display = 'block';
                 cartItems.innerHTML = '';
-                cartTotal.textContent = '₹0';
             } else {
                 cartEmpty.style.display = 'none';
 
@@ -2065,8 +2197,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                 let totalAmount = 0;
 
                 cart.forEach(item => {
-                    const priceValue = extractPrice(item.price);
-                    const itemTotal = priceValue * item.quantity;
+                    const price = parseInt(item.price.replace('₹', '').replace(' RS', ''));
+                    const itemTotal = price * item.quantity;
                     totalAmount += itemTotal;
 
                     itemsHTML += `
@@ -2152,31 +2284,31 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             if (deliveryType === 'restaurant') {
                 const tableNumber = document.getElementById('tableNumber').value.trim();
 
-                message += `**Delivery Type:** Dine-in\n`;
-                message += `**Table Number:** ${tableNumber}\n\n`;
+                message += `*Delivery Type:* Dine-in\n`;
+                message += `*Table Number:* ${tableNumber}\n\n`;
             } else {
                 const customerName = document.getElementById('customerName').value.trim();
                 const customerMobile = document.getElementById('customerMobile').value.trim();
                 const customerAddress = document.getElementById('customerAddress').value.trim();
 
-                message += `**Delivery Type:** Home Delivery\n`;
-                message += `**Name:** ${customerName}\n`;
-                message += `**Mobile:** ${customerMobile}\n`;
-                message += `**Address:** ${customerAddress}\n\n`;
+                message += `*Delivery Type:* Home Delivery\n`;
+                message += `*Name:* ${customerName}\n`;
+                message += `*Mobile:* ${customerMobile}\n`;
+                message += `*Address:* ${customerAddress}\n\n`;
             }
 
-            message += `**Order Details:**\n`;
+            message += `*Order Details:*\n`;
 
             cart.forEach(item => {
                 message += `• ${item.name} - ${item.quantity} x ${item.price}\n`;
             });
 
             const totalAmount = cart.reduce((sum, item) => {
-                const priceValue = extractPrice(item.price);
-                return sum + (priceValue * item.quantity);
+                const price = parseInt(item.price.replace('₹', '').replace(' RS', ''));
+                return sum + (price * item.quantity);
             }, 0);
 
-            message += `\n**Total Amount:** ₹${totalAmount}\n\n`;
+            message += `\n*Total Amount:* ₹${totalAmount}\n\n`;
             message += `Thank you!`;
 
             // Encode the message for WhatsApp URL
@@ -2205,7 +2337,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <div class="card" data-cat="${item.cat}">
           <div class="card-header">
             <div class="thumb">
-              <img src="${item.img}" alt="${item.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDMpIi8+CjxwYXRoIGQ9Ik03MCA4MEgxMTBNODAgNzBIOTBNNjUgOTVIMTA1TTk1IDY1VjEwNU02NSA2NVYxMDVNNzUgNzVIOThNNzUgODVIOThNNzUgOTVIOThNNzUgMTA1SDk4TTY1IDc1SDcyTTY1IDg1SDcyTTY1IDk1SDcyTTY1IDEwNUg3Mk0xMDggNzVIMTE1TTEwOCA4NUgxMTVNMTA4IDk1SDExNU0xMDggMTA1SDExNSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+'">
+              <img src="${item.img}" alt="${item.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDMpIi8+CjxwYXRoIGQ9Ik03MCA4MEgxMTBNODAgNzBWOTBNNjUgOTVIMTA1TTk1IDY1VjEwNU02NSA2NVYxMDVNNzUgNzVIOThNNzUgODVIOThNNzUgOTVIOThNNzUgMTA1SDk4TTY1IDc1SDcyTTY1IDg1SDcyTTY1IDk1SDcyTTY1IDEwNUg3Mk0xMDggNzVIMTE1TTEwOCA4NUgxMTVNMTA4IDk1SDExNU0xMDggMTA1SDExNSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+'">
             </div>
             <div class="card-info">
               <h3 class="dish">${item.name}</h3>
@@ -2217,29 +2349,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           </div>
           <div class="card-footer">
             <div class="price">${item.price}</div>
-            <button class="btn-primary" onclick='addToCart(${JSON.stringify(item).replace(/'/g, "\\'")}, this)'>Add to Cart</button>
+            <button class="btn-primary" onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')}, this)">Add to Cart</button>
           </div>
         </div>
       `).join('');
         }
 
-        // Filter menu items by category
-        function filterByCategory(category) {
-            if (category === 'all') {
-                renderMenuItems(data);
-            } else {
-                const filteredItems = data.filter(item => item.cat === category);
-                renderMenuItems(filteredItems);
-            }
-        }
-
         // Search functionality
         function searchItems(query) {
-            const filteredItems = data.filter(item =>
+            // Determine which items to search based on current section
+            let itemsToSearch = [];
+            
+            if (currentSection === 'liquor') {
+                itemsToSearch = data.filter(item => liquorCategories.includes(item.cat));
+            } else {
+                itemsToSearch = data.filter(item => foodCategories.includes(item.cat));
+            }
+            
+            const filteredItems = itemsToSearch.filter(item =>
                 item.name.toLowerCase().includes(query.toLowerCase()) ||
                 item.desc.toLowerCase().includes(query.toLowerCase()) ||
                 item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
             );
+            
             renderMenuItems(filteredItems);
         }
 
@@ -2248,21 +2380,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             // Set default delivery option
             selectDeliveryOption('restaurant');
 
-            // Render menu items
-            renderMenuItems(data);
+            // Menu is hidden by default (no .visible class)
+            // We don't initialize any section or render any items until button click
 
-            // Tab functionality
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    filterByCategory(tab.dataset.cat);
-                });
-            });
-
-            // Search functionality
+            // Search functionality - but search is disabled until menu is visible
             document.getElementById('search').addEventListener('input', (e) => {
-                searchItems(e.target.value);
+                if (mainMenu.classList.contains('visible')) {
+                    searchItems(e.target.value);
+                }
             });
 
             // Update details summary when form inputs change
